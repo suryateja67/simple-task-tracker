@@ -33,7 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['roles']
     
     objects = CustomUserManager()
 
@@ -65,7 +65,7 @@ class Task(models.Model):
     
     taskid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='tasks')
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, related_name='tasks')
     status = models.CharField(max_length=12, choices=STATUSES, default=ASSIGNED)
     started_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)
