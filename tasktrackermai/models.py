@@ -18,9 +18,15 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    ROLE_CHOICES = [
+        ('M', 'Manager'),
+        ('T', 'Team Member'),
+    ]
+    
     userid = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
+    roles=models.CharField(max_length=1,choices=ROLE_CHOICES,default='T')
     
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
